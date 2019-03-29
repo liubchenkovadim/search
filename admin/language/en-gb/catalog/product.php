@@ -1,4 +1,7 @@
 <?php
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Heading
 $_['heading_title']          = 'Products';
 
@@ -24,12 +27,14 @@ $_['column_image']           = 'Image';
 $_['column_price']           = 'Price';
 $_['column_quantity']        = 'Quantity';
 $_['column_status']          = 'Status';
+$_['column_noindex']         = 'Index';
 $_['column_action']          = 'Action';
 
 // Entry
 $_['entry_name']             = 'Product Name';
 $_['entry_description']      = 'Description';
 $_['entry_meta_title']       = 'Meta Tag Title';
+$_['entry_meta_h1']       	 = 'Meta Tag H1';
 $_['entry_meta_keyword']     = 'Meta Tag Keywords';
 $_['entry_meta_description'] = 'Meta Tag Description';
 $_['entry_store']            = 'Stores';
@@ -75,13 +80,20 @@ $_['entry_required']         = 'Required';
 $_['entry_status']           = 'Status';
 $_['entry_sort_order']       = 'Sort Order';
 $_['entry_category']         = 'Categories';
+$_['entry_sub_category']     = 'include subcategories';
+$_['entry_main_category']    = 'Main Category';
+$_['entry_min']              = 'From';
+$_['entry_max']              = 'To';
 $_['entry_filter']           = 'Filters';
 $_['entry_download']         = 'Downloads';
 $_['entry_related']          = 'Related Products';
+$_['entry_related_article']  = 'Related Articles';
 $_['entry_tag']              = 'Product Tags';
 $_['entry_reward']           = 'Reward Points';
 $_['entry_layout']           = 'Layout Override';
 $_['entry_recurring']        = 'Recurring Profile';
+$_['entry_main_category']    = 'Main Category';
+$_['entry_noindex']          = 'Index';
 
 // Help
 $_['help_sku']               = 'Stock Keeping Unit';
@@ -99,6 +111,8 @@ $_['help_filter']            = '(Autocomplete)';
 $_['help_download']          = '(Autocomplete)';
 $_['help_related']           = '(Autocomplete)';
 $_['help_tag']               = 'Comma separated';
+$_['help_main_category']     = 'Select main category';
+$_['help_noindex']           = 'Indexing in the search engines Google, Yandex, Bing and others';
 
 // Error
 $_['error_warning']          = 'Warning: Please check the form carefully for errors!';

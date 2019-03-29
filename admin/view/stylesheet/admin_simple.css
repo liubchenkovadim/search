@@ -1,0 +1,72 @@
+.card.card-body tr td {
+    border:none;
+}
+.border_none tr td {
+    border:none!important;
+}
+
+.hidden_ul {
+    display: none;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    opacity: 1;
+    cursor: help;
+    background-color: #1e91ce;
+    color:#ffffff;
+    padding: 2px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+
+}
+
+.tooltiptext {
+    text-align: left !important;
+    padding: 5px 5px 5px 10px !important;
+    right: -901%;
+    left:unset !important;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+        width: 380px;
+    background-color: #1e91ce;
+    color: #ffffff;
+
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

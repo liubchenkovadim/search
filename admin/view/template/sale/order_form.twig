@@ -1363,18 +1363,18 @@ $('#tab-product input[name=\'product\']').autocomplete({
 			$('#option').html(html);
 
 			$('.date').datetimepicker({
-				language: document.cookie.match(new RegExp('language=([^;]+)'))[1],
+				language: '{{ datepicker }}',
 				pickTime: false
 			});
 
 			$('.datetime').datetimepicker({
-				language: document.cookie.match(new RegExp('language=([^;]+)'))[1],
+				language: '{{ datepicker }}',
 				pickDate: true,
 				pickTime: true
 			});
 
 			$('.time').datetimepicker({
-				language: document.cookie.match(new RegExp('language=([^;]+)'))[1],
+				language: '{{ datepicker }}',
 				pickDate: false
 			});
 		} else {
@@ -1801,10 +1801,10 @@ $('#tab-shipping select[name=\'country_id\']').on('change', function() {
 		url: 'index.php?route=localisation/country/country&user_token={{ user_token }}&country_id=' + this.value,
 		dataType: 'json',
 		beforeSend: function() {
-			$('#tab-shipping select[name=\'country_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+			$('#tab-shipping select[name=\'country_id\']').prop('disabled', true);
 		},
 		complete: function() {
-			$('#tab-shipping .fa-spin').remove();
+			$('#tab-shipping select[name=\'country_id\']').prop('disabled', false);
 		},
 		success: function(json) {
 			if (json['postcode_required'] == '1') {
@@ -2126,18 +2126,18 @@ $('#button-reward').on('click', function() {
 $('input[name=\'affiliate\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=marketing/affiliate/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=customer/customer/autocomplete&user_token={{ user_token }}&filter_affiliate=1&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',
 			success: function(json) {
 				json.unshift({
-					affiliate_id: 0,
+					customer_id: 0,
 					name: '{{ text_none }}'
 				});
 
 				response($.map(json, function(item) {
 					return {
 						label: item['name'],
-						value: item['affiliate_id']
+						value: item['customer_id']
 					}
 				}));
 			}
@@ -2178,9 +2178,6 @@ $('#button-save').on('click', function() {
 
 			if (json['success']) {
 				$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '  <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-
-                // Refresh products, vouchers and totals
-				$('#button-refresh').trigger('click');
             }
 
 			if (json['order_id']) {
@@ -2248,22 +2245,22 @@ $('#content').delegate('button[id^=\'button-upload\'], button[id^=\'button-custo
 });
 
 $('.date').datetimepicker({
-	language: document.cookie.match(new RegExp('language=([^;]+)'))[1],
+	language: '{{ datepicker }}',
 	pickTime: false
 });
 
 $('.datetime').datetimepicker({
-	language: document.cookie.match(new RegExp('language=([^;]+)'))[1],
+	language: '{{ datepicker }}',
 	pickDate: true,
 	pickTime: true
 });
 
 $('.time').datetimepicker({
-	language: document.cookie.match(new RegExp('language=([^;]+)'))[1],
+	language: '{{ datepicker }}',
 	pickDate: false
 });
 //--></script>
-  <script type="text/javascript">
+  <script type="text/javascript"><!--
 // Sort the custom fields
 $('#tab-customer .form-group[data-sort]').detach().each(function() {
 	if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#tab-customer .form-group').length) {
@@ -2314,6 +2311,12 @@ $('#button-refresh').on('click', function() {
 		url: '{{ catalog }}index.php?route=api/cart/products&api_token={{ api_token }}&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
 		dataType: 'json',
 		crossDomain: true,
+		beforeSend: function() {
+			$('#button-refresh').button('loading');
+		},
+		complete: function() {
+			$('#button-refresh').button('reset');
+		},		
 		success: function(json) {
 			$('.alert-dismissible').remove();
 
@@ -2487,5 +2490,5 @@ $('#button-refresh').on('click', function() {
 		}
 	});
 });
-</script></div>
+//--></script></div>
 {{ footer }}

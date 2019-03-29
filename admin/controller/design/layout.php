@@ -1,4 +1,7 @@
 <?php
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerDesignLayout extends Controller {
 	private $error = array();
 
@@ -323,16 +326,13 @@ class ControllerDesignLayout extends Controller {
 		$this->load->model('setting/module');
 
 		$data['extensions'] = array();
-	
-		// Create a new language container so we don't pollute the current one
-		$language = new Language($this->config->get('config_language'));
 		
 		// Get a list of installed modules
 		$extensions = $this->model_setting_extension->getInstalled('module');
 
 		// Add all the modules which have multiple settings for each module
 		foreach ($extensions as $code) {
-			$language->load('extension/module/' . $code);
+			$this->load->language('extension/module/' . $code, 'extension');
 
 			$module_data = array();
 
@@ -347,7 +347,7 @@ class ControllerDesignLayout extends Controller {
 
 			if ($this->config->has('module_' . $code . '_status') || $module_data) {
 				$data['extensions'][] = array(
-					'name'   => strip_tags($language->get('heading_title')),
+					'name'   => strip_tags($this->language->get('extension')->get('heading_title')),
 					'code'   => $code,
 					'module' => $module_data
 				);
@@ -369,7 +369,7 @@ class ControllerDesignLayout extends Controller {
 		foreach ($layout_modules as $layout_module) {
 			$part = explode('.', $layout_module['code']);
 		
-			$language->load('extension/module/' . $part[0]);
+			$this->load->language('extension/module/' . $part[0]);
 
 			if (!isset($part[1])) {
 				$data['layout_modules'][] = array(
@@ -422,6 +422,7 @@ class ControllerDesignLayout extends Controller {
 		$this->load->model('catalog/product');
 		$this->load->model('catalog/category');
 		$this->load->model('catalog/information');
+		$this->load->model('catalog/manufacturer');
 
 		foreach ($this->request->post['selected'] as $layout_id) {
 			if ($this->config->get('config_layout_id') == $layout_id) {
@@ -444,6 +445,12 @@ class ControllerDesignLayout extends Controller {
 
 			if ($category_total) {
 				$this->error['warning'] = sprintf($this->language->get('error_category'), $category_total);
+			}
+			
+			$manufacturer_total = $this->model_catalog_manufacturer->getTotalManufacturerByLayoutId($layout_id);
+			
+			if ($manufacturer_total) {
+				$this->error['warning'] = sprintf($this->language->get('error_manufacturer'), $manufacturer_total);
 			}
 
 			$information_total = $this->model_catalog_information->getTotalInformationsByLayoutId($layout_id);

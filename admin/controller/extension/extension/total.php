@@ -1,4 +1,7 @@
 <?php
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerExtensionExtensionTotal extends Controller {
 	private $error = array();
 
@@ -76,9 +79,6 @@ class ControllerExtensionExtensionTotal extends Controller {
 
 		$data['extensions'] = array();
 		
-		// Create a new language container so we don't pollute the current one
-		$language = new Language($this->config->get('config_language'));
-		
 		// Compatibility code for old extension folders
 		$files = glob(DIR_APPLICATION . 'controller/extension/total/*.php');
 
@@ -86,20 +86,32 @@ class ControllerExtensionExtensionTotal extends Controller {
 			foreach ($files as $file) {
 				$extension = basename($file, '.php');
 
-				$language->load('extension/total/' . $extension);
+				$this->load->language('extension/total/' . $extension, 'extension');
 
 				$data['extensions'][] = array(
-					'name'       => $language->get('heading_title'),
+					'name'       => $this->language->get('extension')->get('heading_title'),
 					'status'     => $this->config->get('total_' . $extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
 					'sort_order' => $this->config->get('total_' . $extension . '_sort_order'),
-					'install'   => $this->url->link('extension/extension/total/install', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension, true),
-					'uninstall' => $this->url->link('extension/extension/total/uninstall', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension, true),
-					'installed' => in_array($extension, $extensions),
-					'edit'      => $this->url->link('extension/total/' . $extension, 'user_token=' . $this->session->data['user_token'], true)
+					'install'    => $this->url->link('extension/extension/total/install', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension, true),
+					'uninstall'  => $this->url->link('extension/extension/total/uninstall', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension, true),
+					'installed'  => in_array($extension, $extensions),
+					'edit'       => $this->url->link('extension/total/' . $extension, 'user_token=' . $this->session->data['user_token'], true)
 				);
 			}
 		}
-
+		
+		$sort_order = array();
+		
+		foreach ($data['extensions'] as $key => $value) {
+			if($value['installed']){
+				$add = '0';
+			}else{
+				$add = '1';
+			}
+				$sort_order[$key] = $add.$value['name'];
+		}
+		array_multisort($sort_order, SORT_ASC, $data['extensions']);
+		
 		$this->response->setOutput($this->load->view('extension/extension/total', $data));
 	}
 

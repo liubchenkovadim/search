@@ -1,4 +1,5 @@
 {{ header }}{{ column_left }}
+
 <div id="content" style="font-size: 14px">
     <div class="page-header">
         <div class="container-fluid">
@@ -43,99 +44,309 @@
 
                             <div class="table-responsive">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#setting">Setting</a></li>
-                                    <li><a data-toggle="tab" href="#custom_settings">Сustom settings</a></li>
-                                    <li><a data-toggle="tab" href="#design">Design</a></li>
-                                    <li><a data-toggle="tab" href="#history">History & Suggestion</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#setting">{{ column_setting }}</a>
+                                    </li>
+                                    <li><a data-toggle="tab" href="#custom_settings">{{ column_custom }}</a></li>
+                                    <li><a data-toggle="tab" href="#design">{{ column_design }}</a></li>
+                                    <li><a data-toggle="tab" href="#history">{{ column_history }}</a></li>
 
                                 </ul>
 
                                 <form action="{{ save }}" method="post" id="form-setting">
                                     <div class="tab-content">
                                         <div id="setting" class="tab-pane fade in active">
-                                            <h3>Setting</h3>
+                                            <h3>{{ column_setting }}</h3>
+                                            <table class="table border_none">
+                                                <tr>
+                                                    <td>
 
-                                            <div class="form-group required">
-                                                <input type="hidden" name="setting_id" value="{{ setting.setting_id }}">
-                                                <div class="form-check">
-                                                    <input class="form-input" type="radio" name="setting_status"
-                                                           value="0"
-                                                            {% if setting_input.setting_status == 0 %} checked {% endif %}
-                                                           >
-                                                    <input class="form-input" type="radio" name="setting_status"
-                                                           value="1"
-                                                            {% if setting_input.setting_status == 1 %} checked {% endif %}
-                                                          >
-                                                    <label class="form-check-label" for="setting_status">
-                                                        Status
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <div class="form-group">
-                                                    <label for="setting_min_symbol">Min symbol</label>
-                                                    <input type="number" class="form-control" id="setting_min_symbol" name="setting_min_symbol"
-                                                           value="{{ setting_input.setting_min_symbol }}"
+                                                        <input type="hidden" name="setting_id"
+                                                               value="{{ setting.setting_id }}">
+                                                        <div class="form-check">
+                                                            <input class="form-input" type="hidden"
+                                                                   name="setting_status"
+                                                                   value="0"
+                                                                    {% if setting_input.setting_status == 0 %} checked {% endif %}
+                                                            >
+                                                            <input class="form-input" type="checkbox"
+                                                                   name="setting_status"
+                                                                   value="1"
+                                                                    {% if setting_input.setting_status == 1 %} checked {% endif %}
+                                                                   id="setting_status"
+                                                            >
+                                                            <label class="form-check-label" for="setting_status">
+                                                                {{ column_status }}
+                                                            </label>
+                                                        </div>
 
-                                                           placeholder="Enter min symbol" min="0" max="10">
-                                                </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <div class="form-check">
-                                                    <input class="form-input" type="radio" name="setting_suggestions"
-                                                           value="0"
-                                                           {% if setting_input.setting_suggestions == 0 %} checked{% endif %}
-                                                          >
-                                                    <input class="form-input" type="radio" name="setting_suggestions"
-                                                           value="1"
-                                                           {% if setting_input.setting_suggestions == 1 %} checked{% endif %}
-                                                           >
-                                                    <label class="form-check-label" for="setting_suggestions">
-                                                        Suggestions
-                                                    </label>
-                                                </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        {% if error_setting_min_symbol %}
+                                                            <div class="text-danger">{{ error_setting_min_symbol }}</div>
+                                                        {% endif %}
 
-                                            </div>
+                                                        <div class="form-group">
+                                                            <label for="setting_min_symbol">{{ column_min_symbol }}</label>
+                                                            <input type="number" class="form-control"
+                                                                   id="setting_min_symbol" name="setting_min_symbol"
+                                                                   value="{{ setting_input.setting_min_symbol }}"
+
+                                                                   placeholder="Enter min symbol" min="0" max="10">
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+
+                                                        <div class="form-check">
+                                                            <input class="form-input" type="hidden"
+                                                                   name="setting_suggestions"
+                                                                   value="0"
+                                                                    {% if setting_input.setting_suggestions == 0 %} checked{% endif %}
+                                                            >
+                                                            <input class="form-input" type="checkbox"
+                                                                   name="setting_suggestions"
+                                                                   value="1"
+                                                                    {% if setting_input.setting_suggestions == 1 %} checked{% endif %}
+                                                                   id="setting_suggestions"
+                                                            >
+                                                            <label class="form-check-label" for="setting_suggestions">
+                                                                {{ column_suggestions }}
+                                                            </label>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>{{ colum_image_size }}:</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group required">
+                                                            <div class="form-group">
+                                                                {% if error_appearance_image_width %}
+                                                                    <div class="text-danger">{{ error_appearance_image_width }}</div>
+                                                                {% endif %}
+                                                                <label for="image_wigth"> {{ colum_image_width }}</label>
+                                                                <input type="number" class="form-control"
+                                                                       id="image_width" name="appearance_image_width"
+                                                                       value="{{ appearance.appearance_image_width }}"
+
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group required">
+                                                            <div class="form-group">
+                                                                {% if error_appearance_image_height %}
+                                                                    <div class="text-danger">{{ error_appearance_image_height }}</div>
+                                                                {% endif %}
+                                                                <label for="image_height"> {{ colum_image_height }}</label>
+                                                                <input type="number" class="form-control"
+                                                                       id="image_height" name="appearance_image_height"
+                                                                       value="{{ appearance.appearance_image_height }}"
+
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>{{ colum_li_hover }}</label>
+
+                                                    </td>
+
+                                                    <td>
+                                                        <div class="form-group">
+                                                            {% if error_appearance_background %}
+                                                                <div class="text-danger">{{ error_appearance_background }}</div>
+                                                            {% endif %}
+                                                            <label for="background">{{ colum_format_hex }}
+                                                                <div class="tooltip"> ?
+                                                                    <span class="tooltiptext">{{ text_format_hex }}</span>
+                                                                </div>
+                                                            </label>
+                                                            <input type="text" class="form-control" id="background"
+                                                                   name="appearance_background"
+                                                                   value="{{ appearance.appearance_background }}"
+
+                                                            >
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>{{ colum_hover_background }}</label>
+
+                                                    </td>
+
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-input" type="hidden"
+                                                                   name="appearance_background_hover_on"
+                                                                   value="0"
+                                                                    {% if appearance.appearance_background_hover_on == 0 %} checked{% endif %}
+                                                            >
+                                                            <input class="form-input" type="checkbox"
+                                                                   name="appearance_background_hover_on"
+                                                                   value="1"
+                                                                    {% if appearance.appearance_background_hover_on == 1 %} checked{% endif %}
+                                                                   id="appearance_background_hover_on"
+                                                            >
+                                                            <label for="background_hover_on">Однотонный цвет</label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-input" type="hidden"
+                                                                   name="appearance_background_hover_gradient_on"
+                                                                   value="0"
+                                                                    {% if appearance.appearance_background_hover_gradient_on == 0 %} checked{% endif %}
+                                                            >
+                                                            <input class="form-input" type="checkbox"
+                                                                   name="appearance_background_hover_gradient_on"
+                                                                   value="1"
+                                                                    {% if appearance.appearance_background_hover_gradient_on == 1 %} checked{% endif %}
+                                                                   id="appearance_background_hover_gradient_on"
+                                                            >
+                                                            <label for="background_hover_gradient_on">Градиет
+                                                                <div class="tooltip"> ?
+                                                                    <span class="tooltiptext">{{ text_format_gradient }}</span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr id="collor_on" class="hidden_ul">
+                                                    <td></td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            {% if error_appearance_background_hover %}
+                                                                <div class="text-danger">{{ error_appearance_background_hover }}</div>
+                                                            {% endif %}
+                                                            <label for="background_hover">{{ colum_format_hex }}
+                                                                <div class="tooltip"> ?
+                                                                    <span class="tooltiptext">{{ text_format_hex }}</span>
+                                                                </div>
+                                                            </label>
+                                                            <input type="text" class="form-control"
+                                                                   id="background_hover"
+                                                                   name="appearance_background_hover"
+
+                                                                   value="{{ appearance.appearance_background_hover }}"
+
+                                                            >
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr id="gradiet_on" class="hidden_ul">
+
+                                                    <td>
+                                                        <div class="form-group">
+                                                            {% if error_appearance_background_hover_gradient_to %}
+                                                                <div class="text-danger">{{ error_appearance_background_hover_gradient_to }}</div>
+                                                            {% endif %}
+                                                            <label for="background_hover">{{ colum_format_hex }}
+                                                                <div class="tooltip"> ?
+                                                                    <span class="tooltiptext">{{ text_format_hex }}</span>
+                                                                </div>
+                                                            </label>
+                                                            <input type="text" class="form-control"
+                                                                   id="background_hover_gradient_to"
+                                                                   name="appearance_background_hover_gradient_to"
+
+                                                                   value="{{ appearance.appearance_background_hover_gradient_to }}"
+
+                                                            >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="form-group">
+                                                            {% if error_appearance_background_hover_gradient_end %}
+                                                                <div class="text-danger">{{ error_appearance_background_hover_gradient_end }}</div>
+                                                            {% endif %}
+                                                            <label for="background_hover">{{ colum_format_hex }}
+                                                                <div class="tooltip"> ?
+                                                                    <span class="tooltiptext">{{ text_format_hex }}</span>
+                                                                </div>
+                                                            </label>
+                                                            <input type="text" class="form-control"
+                                                                   id="background_hover_gradient"
+                                                                   name="appearance_background_hover_gradient_end"
+
+                                                                   value="{{ appearance.appearance_background_hover_gradient_end }}"
+
+                                                            >
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+
                                         </div>
 
                                         <div id="custom_settings" class="tab-pane fade">
-                                            <h3>Сustom settings </h3>
+                                            <h3>{{ column_custom }}</h3>
                                             <ul class="list-group">
                                                 <li class="list-group-item">
                                                     <a data-toggle="collapse" href="#category_ajax" role="button"
                                                        aria-expanded="false" aria-controls="collapseExample">
-                                                        Category
+                                                        {{ column_category }}
                                                     </a>
                                                     <div class="collapse" id="category_ajax">
                                                         <div class="card card-body">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="category_name" value="0"
-                                                                        {% if category_input.category_name == 0 %} checked {% endif %}
-                                                                       >
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="category_name" value="1"
-                                                                        {% if category_input.category_name == 1 %} checked {% endif %}
-                                                                       >
-                                                                <label class="form-check-label" for="category_name">
-                                                                    name
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="category_meta_title" value="0"
-                                                                        {% if category_input.category_meta_title == 0 %} checked {% endif %}
+                                                            <table class="table border_none">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="category_name" value="0"
+                                                                                    {% if category_input.category_name == 0 %} checked {% endif %}
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="category_name" value="1"
+                                                                                    {% if category_input.category_name == 1 %} checked {% endif %}
+                                                                                   id="category_name"
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="category_name">
+                                                                                {{ column_name }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="category_meta_title" value="0"
+                                                                                    {% if category_input.category_meta_title == 0 %} checked {% endif %}
 
-                                                                       >
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="category_meta_title" value="1"
-                                                                        {% if category_input.category_meta_title == 1 %} checked {% endif %}
->
-                                                                <label class="form-check-label"
-                                                                       for="category_meta_title">
-                                                                    meta title
-                                                                </label>
-                                                            </div>
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="category_meta_title" value="1"
+                                                                                    {% if category_input.category_meta_title == 1 %} checked {% endif %}
+                                                                                   id="category_meta_title"
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="category_meta_title">
+                                                                                {{ column_meta_title }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+
+
                                                         </div>
                                                     </div>
                                                 </li>
@@ -143,92 +354,133 @@
                                                     <p>
                                                         <a data-toggle="collapse" href="#information_ajax" role="button"
                                                            aria-expanded="false" aria-controls="collapseExample">
-                                                            Information
+                                                            {{ column_information }}
                                                         </a>
 
                                                     </p>
                                                     <div class="collapse" id="information_ajax">
                                                         <div class="card card-body">
+                                                            <table class="table border_none">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="information_title" value="0"
+                                                                                    {% if information_input.information_title == 0 %} checked {% endif %}
 
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_title" value="0"
-                                                                        {% if information_input.information_title == 0 %} checked {% endif %}
 
-                                                                      >
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_title" value="1"
-                                                                        {% if information_input.information_title == 1 %} checked {% endif %}
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="information_title" value="1"
+                                                                                    {% if information_input.information_title == 1 %} checked {% endif %}
+                                                                                   id="information_title"
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="information_title">
+                                                                                {{ column_title }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="information_description"
+                                                                                   value="0"
+                                                                                    {% if information_input.information_description == 0 %} checked {% endif %}
 
-                                                                       >
-                                                                <label class="form-check-label" for="information_title">
-                                                                    title
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_description" value="0"
-                                                                        {% if information_input.information_description == 0 %} checked {% endif %}
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="information_description"
+                                                                                   value="1"
+                                                                                    {% if information_input.information_description == 1 %} checked {% endif %}
+                                                                                   id="information_description"
 
-                                                                       >
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_description" value="1"
-                                                                        {% if information_input.information_description == 1 %} checked {% endif %}
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="information_description">
+                                                                                {{ column_description }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="information_meta_title"
+                                                                                   value="0"
+                                                                                    {% if information_input.information_meta_title == 0 %} checked {% endif %}
 
-                                                                       >
-                                                                <label class="form-check-label"
-                                                                       for="information_description">
-                                                                    description
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_meta_title" value="0"
-                                                                        {% if information_input.information_meta_title == 0 %} checked {% endif %}
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="information_meta_title"
+                                                                                   value="1"
+                                                                                    {% if information_input.information_meta_title == 1 %} checked {% endif %}
+                                                                                   id="information_meta_title"
 
-                                                                      >
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_meta_title" value="1"
-                                                                        {% if information_input.information_meta_title == 1 %} checked {% endif %}
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="information_meta_title">
+                                                                                {{ column_meta_title }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="information_meta_description"
+                                                                                   value="0"
+                                                                                    {% if information_input.information_meta_description ==0 %} checked {% endif %}
 
-                                                                      >
-                                                                <label class="form-check-label"
-                                                                       for="information_meta_title">
-                                                                    meta title
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_meta_description" value="0"
-                                                                        {% if information_input.information_meta_description ==0 %} checked {% endif %}
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="information_meta_description"
+                                                                                   value="1"
+                                                                                    {% if information_input.information_meta_description == 1 %} checked {% endif %}
+                                                                                   id="information_meta_description"
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="information_meta_description">
+                                                                                {{ column_meta_description }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="information_meta_keyword"
+                                                                                   value="0"
+                                                                                    {% if information_input.information_meta_keyword == 0 %} checked {% endif %}
 
-                                                                       >
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_meta_description" value="1"
-                                                                        {% if information_input.information_meta_description == 1 %} checked {% endif %}
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="information_meta_keyword"
+                                                                                   value="1"
+                                                                                    {% if information_input.information_meta_keyword == 1 %} checked {% endif %}
+                                                                                   id="information_meta_keyword"
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="information_meta_keyword">
+                                                                                {{ column_meta_keyword }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td></td>
 
-                                                                       >
-                                                                <label class="form-check-label"
-                                                                       for="information_meta_description">
-                                                                    meta description
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_meta_keyword" value="0"
-                                                                        {% if information_input.information_meta_keyword == 0 %} checked {% endif %}
+                                                                </tr>
+                                                            </table>
 
-                                                                       >
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="information_meta_keyword" value="1"
-                                                                        {% if information_input.information_meta_keyword == 1 %} checked {% endif %}
 
-                                                                       >
-                                                                <label class="form-check-label"
-                                                                       for="information_meta_keyword">
-                                                                    meta keyword
-                                                                </label>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -237,27 +489,37 @@
                                                         <a data-toggle="collapse" href="#manufacturer_ajax"
                                                            role="button" aria-expanded="false"
                                                            aria-controls="collapseExample">
-                                                            Manufacturer
+                                                            {{ column_manufacturer }}
                                                         </a>
 
                                                     </p>
                                                     <div class="collapse" id="manufacturer_ajax">
                                                         <div class="card card-body">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="manufacturer_name" value="0"
-                                                                        {% if manufacturer_input.manufacturer_name == 0 %} checked {% endif %}
+                                                            <table class="table border_none">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="manufacturer_name" value="0"
+                                                                                    {% if manufacturer_input.manufacturer_name == 0 %} checked {% endif %}
 
-                                                                       >
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="manufacturer_name" value="1"
-                                                                        {% if manufacturer_input.manufacturer_name == 1 %} checked {% endif %}
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="manufacturer_name" value="1"
+                                                                                    {% if manufacturer_input.manufacturer_name == 1 %} checked {% endif %}
+                                                                                   id="manufacturer_name"
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="manufacturer_name">
+                                                                                {{ column_name }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
 
-                                                                       >
-                                                                <label class="form-check-label" for="manufacturer_name">
-                                                                    name
-                                                                </label>
-                                                            </div>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -265,31 +527,46 @@
                                                     <p>
                                                         <a data-toggle="collapse" href="#product_ajax" role="button"
                                                            aria-expanded="false" aria-controls="collapseExample">
-                                                            Product
+                                                            {{ column_product }}
                                                         </a>
 
                                                     </p>
                                                     <div class="collapse" id="product_ajax">
                                                         <div class="card card-body">
-                                                            {% for input in product_inputs %}
+                                                            <table class="table border_none">
+                                                                {% set  i =1 %}
+                                                                {% for input in product_inputs %}
+                                                                    {% if i == 4 or i ==7 or i == 10 or i == 13 %}
+                                                                        <tr>
+                                                                    {% endif %}
+                                                                    <td>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input"
+                                                                                   type="hidden"
+                                                                                   name="product_{{ input.id }}"
+                                                                                   value="0"
+                                                                                    {% if input.value == 0 %} checked {% endif %}
+                                                                            >
+                                                                            <input class="form-check-input"
+                                                                                   type="checkbox"
+                                                                                   name="product_{{ input.id }}"
+                                                                                   value="1"
+                                                                                    {% if input.value == 1 %} checked {% endif %}
+                                                                                   id="product_{{ input.id }}"
+                                                                            >
+                                                                            <label class="form-check-label"
+                                                                                   for="product_{{ input.id }}">
+                                                                                {{ input.name }}
+                                                                            </label>
+                                                                        </div>
+                                                                        {% set  i =   i+1 %}
+                                                                    </td>
 
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio"
-                                                                           name="product_{{ input.id }}"
-                                                                           value="0"
-                                                                            {% if input.value == 0  %} checked {% endif %}
-                                                                           >
-                                                                    <input class="form-check-input" type="radio"
-                                                                           name="product_{{ input.id }}"
-                                                                           value="1"
-                                                                            {% if input.value == 1  %} checked {% endif %}
-                                                                           >
-                                                                    <label class="form-check-label"
-                                                                           for="product_{{ input.id }}">
-                                                                        {{ input.name }}
-                                                                    </label>
-                                                                </div>
-                                                            {% endfor %}
+                                                                    {% if i == 4 or i == 7 or i == 10 or i == 13 %}
+                                                                        </tr>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </table>
 
                                                         </div>
                                                     </div>
@@ -300,76 +577,189 @@
 
                                         </div>
                                         <div id="design" class="tab-pane fade">
-                                            <h3>Design</h3>
-                                            <div class="form-check">
-                                                <label class="form-check-label"
-                                                       for="desing_max_numbers">
-                                                    Max Number of results
-                                                </label>
-                                                <input type="number" class="form-control" id="desing_max_numbers"
-                                                       name="desing_max_numbers" value="{{ desing_input.desing_max_numbers }}"
+                                            <h3>{{ column_design }}</h3>
+                                            <table class="table border_none">
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label"
+                                                                   for="desing_max_numbers">
+                                                                {{ column_max }}
+                                                            </label>
+                                                            <input type="number" class="form-control"
+                                                                   id="desing_max_numbers"
+                                                                   name="desing_max_numbers"
+                                                                   value="{{ desing_input.desing_max_numbers }}"
+                                                                   id="desing_max_numbers"
 
-                                                       placeholder="Enter max numbers" min="5" max="10">
-                                            </div>
+                                                                   placeholder="Enter max numbers" min="5" max="50">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="hidden"
+                                                                   name="desing_links"
+                                                                   value="0"
+                                                                    {% if desing_input.desing_links == 0 %} checked {% endif %}
+
+                                                            >
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   name="desing_links"
+                                                                   value="1"
+                                                                    {% if desing_input.desing_links == 1 %} checked {% endif %}
+                                                                   id="desing_links"
+
+                                                            >
+                                                            <label class="form-check-label"
+                                                                   for="desing_links">
+                                                                {{ column_link }}
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="hidden"
+                                                                   name="desing_price"
+                                                                   value="0"
+                                                                    {% if desing_input.desing_price == 0 %} checked {% endif %}
+
+                                                            >
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   name="desing_price"
+                                                                   value="1"
+                                                                    {% if desing_input.desing_price == 1 %} checked {% endif %}
+                                                                   id="desing_price"
+
+                                                            >
+                                                            <label class="form-check-label"
+                                                                   for="desing_price">
+                                                                {{ column_price }}
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="hidden"
+                                                                   name="desing_image"
+                                                                   value="0"
+                                                                    {% if desing_input.desing_image == 0 %} checked {% endif %}
+
+                                                            >
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   name="desing_image"
+                                                                   value="1"
+                                                                    {% if desing_input.desing_image == 1 %} checked {% endif %}
+                                                                   id="desing_image"
+
+                                                            >
+                                                            <label class="form-check-label"
+                                                                   for="desing_image">
+                                                                {{ column_image }}
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="hidden"
+                                                                   name="desing_type"
+                                                                   value="0"
+                                                                    {% if desing_input.desing_type == 0 %} checked {% endif %}
+
+                                                            >
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   name="desing_type"
+                                                                   value="1"
+                                                                    {% if desing_input.desing_type == 1 %} checked {% endif %}
+                                                                   id="desing_type"
+
+                                                            >
+                                                            <label class="form-check-label"
+                                                                   for="desing_type">
+                                                                {{ colum_type_li }}
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="hidden"
+                                                                   name="desing_title_cropping"
+                                                                   value="0" id="desing_hidden_input"
+                                                                    {% if desing_input.desing_title_cropping == 0 %} checked {% endif %}
+
+                                                            >
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   name="desing_title_cropping"
+                                                                   value="1"
+                                                                    {% if desing_input.desing_title_cropping == 1 %} checked {% endif %}
+                                                                   id="desing_title_cropping"
+
+                                                            >
+                                                            <label class="form-check-label"
+                                                                   for="desing_title_cropping">
+                                                                {{ colum_title_cropping }}
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hidden_ul" id="td_cropping">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label"
+                                                                   for="desing_cropping">
+                                                                {{ colum_number_cropping }}
+                                                            </label>
+                                                            <input type="number" class="form-control"
+                                                                   id="desing_cropping"
+                                                                   name="desing_cropping"
+                                                                   value="{{ desing_input.desing_cropping }}"
+                                                                   id="desing_cropping"
+
+                                                            >
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
 
 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio"
-                                                       name="desing_links"
-                                                       value="0"
-                                                        {% if desing_input.desing_links == 0 %} checked {% endif %}
-
-                                                       >
-                                                <input class="form-check-input" type="radio"
-                                                       name="desing_links"
-                                                       value="1"
-                                                        {% if desing_input.desing_links == 1 %} checked {% endif %}
-
-                                                       >
-                                                <label class="form-check-label"
-                                                       for="desing_links">
-                                                    Show more results link
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio"
-                                                       name="desing_price"
-                                                       value="0"
-                                                        {% if desing_input.desing_price == 0 %} checked {% endif %}
-
-                                                       >
-                                                <input class="form-check-input" type="radio"
-                                                       name="desing_price"
-                                                       value="1"
-                                                        {% if desing_input.desing_price == 1 %} checked {% endif %}
-
-                                                      >
-                                                <label class="form-check-label"
-                                                       for="desing_price">
-                                                    Display product price
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio"
-                                                       name="desing_image"
-                                                       value="0"
-                                                        {% if desing_input.desing_image == 0 %} checked {% endif %}
-
-                                                       >
-                                                <input class="form-check-input" type="radio"
-                                                       name="desing_image"
-                                                       value="1"
-                                                        {% if desing_input.desing_image == 1 %} checked {% endif %}
-
-                                                       >
-                                                <label class="form-check-label"
-                                                       for="desing_image">
-                                                    Display product image
-                                                </label>
-                                            </div>
                                         </div>
                                         <div id="history" class="tab-pane fade">
-                                            <h3>History & Suggestion</h3>
+                                            <h3>{{ column_history }}</h3>
+                                            {% if suggestions %}
+
+
+                                            <table class="table table-striped scrollspy ">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">{{ column_input }}</th>
+                                                    <th scope="col">{{ column_save_value }}</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for suggestion in suggestions %}
+                                                    <tr>
+                                                        <th scope="row">{{ suggestion.id }}</th>
+                                                        <td>{{ suggestion.name }}</td>
+                                                        <td><input type="text" name="smart_name_{{ suggestion.id }}"
+                                                                   value="{{ suggestion.value }}"></td>
+                                                    </tr>
+
+                                                {% endfor %}
+                                                {% endif %}
+                                                </tbody>
+                                            </table>
+
                                         </div>
 
                                     </div>
@@ -387,6 +777,7 @@
                 </div>
             </div>
         </div>
+
         <script type="text/javascript"><!--
             $('#button-filter').on('click', function () {
                 url = 'index.php?route=catalog/review&user_token={{ user_token }}';

@@ -2,6 +2,7 @@
 
 class ControllerExtensionModuleSimple extends Controller
 {
+    private $error = array();
     private $route = 'extension/module/simple';
 
     public function index()
@@ -9,6 +10,10 @@ class ControllerExtensionModuleSimple extends Controller
         $this->load->language('extension/module/simple');
 
         $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->addScript('view/javascript/admin_simple.js');
+        $this->document->addStyle('view/stylesheet/admin_simple.css');
+
+
 
         $this->load->model('extension/module/simple');
         $this->install();
@@ -51,57 +56,54 @@ class ControllerExtensionModuleSimple extends Controller
 
         }
         $data['product_inputs'] = array(
-            'product_name' => array('name' => 'Name',
+            'product_name' => array('name' => $this->language->get('column_name'),
                 'id' => 'name',
             ),
-            'product_manufacturer' => array('name' => 'Manufacturer',
-                'id' => 'manufacturer',
+
+            'product_ean' => array('name' => $this->language->get('column_ean'),
+                'id' => 'ean',
             ),
-            'product_ean' => array('name' => 'EAN',
-                'id' => 'EAN',
-            ),
-            'product_upc' => array('name' => 'UPC',
+            'product_upc' => array('name' => $this->language->get('column_upc'),
                 'id' => 'upc',
             ),
             'product_option' => array('name' => 'Option',
                 'id' => 'option',
             ),
-            'product_meta_description' => array('name' => 'Meta description',
+            'product_meta_description' => array('name' => $this->language->get('column_meta_description'),
                 'id' => 'meta_description',
             ),
-            'product_description' => array('name' => 'Description',
+            'product_description' => array('name' => $this->language->get('column_description'),
                 'id' => 'description',
             ),
-            'product_model' => array('name' => 'Model',
+            'product_model' => array('name' => $this->language->get('column_model'),
                 'id' => 'model',
             ),
-            'product_isbn' => array('name' => 'ISBN',
+            'product_isbn' => array('name' => $this->language->get('column_isbn'),
                 'id' => 'isbn',
             ),
-            'product_mpn' => array('name' => 'MPN',
+            'product_mpn' => array('name' => $this->language->get('column_mpn'),
                 'id' => 'mpn',
             ),
-            'product_tag' => array('name' => 'TAG',
+            'product_tag' => array('name' => $this->language->get('column_tag'),
                 'id' => 'tag',
             ),
-            'product_meta_keyword' => array('name' => 'Meta Keyword',
+            'product_meta_keyword' => array('name' => $this->language->get('column_meta_keyword'),
                 'id' => 'meta_keyword',
             ),
-            'product_category' => array('name' => 'Category',
-                'id' => 'category',
-            ),
-            'product_sku' => array('name' => 'Sku',
+
+            'product_sku' => array('name' => $this->language->get('column_sku'),
                 'id' => 'sku',
             ),
-            'product_jan' => array('name' => 'JAN',
+            'product_jan' => array('name' => $this->language->get('column_jan'),
                 'id' => 'jan',
             ),
-            'product_attribute' => array('name' => 'Attribute',
+            'product_attribute' => array('name' => $this->language->get('column_attribute'),
                 'id' => 'attribute',
             ),
-            'product_meta_title' => array('name' => 'Meta Title',
+            'product_meta_title' => array('name' => $this->language->get('column_meta_title'),
                 'id' => 'meta_title',
             ),
+
         );
 
         if (!empty($data['product_input'])) {
@@ -113,7 +115,7 @@ class ControllerExtensionModuleSimple extends Controller
                 }
             }
         }
-
+        $data['suggestions'] = $this->getSuggestion();
 
         $data['heading_title'] = $this->language->get('heading_title');
 
@@ -123,16 +125,51 @@ class ControllerExtensionModuleSimple extends Controller
         $data['text_enabled'] = $this->language->get('text_enabled');
         $data['text_disabled'] = $this->language->get('text_disabled');
 
-        $data['column_product'] = $this->language->get('column_product');
-        $data['column_author'] = $this->language->get('column_author');
-        $data['column_rating'] = $this->language->get('column_rating');
+        $data['column_setting'] = $this->language->get('column_setting');
+        $data['column_custom'] = $this->language->get('column_custom');
+        $data['column_design'] = $this->language->get('column_design');
+        $data['column_history'] = $this->language->get('column_history');
         $data['column_status'] = $this->language->get('column_status');
-        $data['column_chench'] = $this->language->get('column_chench');
-        $data['column_action'] = $this->language->get('column_action');
+        $data['column_min_symbol'] = $this->language->get('column_min_symbol');
+        $data['column_suggestions'] = $this->language->get('column_suggestions');
+        $data['column_meta_title'] = $this->language->get('column_meta_title');
+        $data['column_information'] = $this->language->get('column_information');
+        $data['column_title'] = $this->language->get('column_title');
+        $data['column_description'] = $this->language->get('column_description');
+        $data['column_meta_keyword'] = $this->language->get('column_meta_keyword');
+        $data['column_manufacturer'] = $this->language->get('column_manufacturer');
+        $data['column_product'] = $this->language->get('column_product');
+        $data['column_price'] = $this->language->get('column_price');
+        $data['column_link'] = $this->language->get('column_link');
+        $data['column_max'] = $this->language->get('column_max');
+        $data['column_image'] = $this->language->get('column_image');
+        $data['column_input'] = $this->language->get('column_input');
+        $data['column_meta_keyword'] = $this->language->get('column_meta_keyword');
+        $data['column_manufacturer'] = $this->language->get('column_manufacturer');
+        $data['column_product'] = $this->language->get('column_product');
 
-        $data['entry_product'] = $this->language->get('entry_product');
-        $data['entry_after'] = $this->language->get('entry_after');
-        $data['entry_before'] = $this->language->get('entry_before');
+        $data['column_save_value'] = $this->language->get('column_save_value');
+        $data['column_information'] = $this->language->get('column_information');
+        $data['column_description'] = $this->language->get('column_description');
+        $data['column_title'] = $this->language->get('column_title');
+        $data['column_input'] = $this->language->get('column_input');
+        $data['column_meta_keyword'] = $this->language->get('column_meta_keyword');
+        $data['column_manufacturer'] = $this->language->get('column_manufacturer');
+        $data['column_product'] = $this->language->get('column_product');
+        $data['colum_image_size'] = $this->language->get('colum_image_size');
+        $data['colum_image_width'] = $this->language->get('colum_image_width');
+        $data['colum_image_height'] = $this->language->get('colum_image_height');
+        $data['colum_li_hover'] = $this->language->get('colum_li_hover');
+        $data['colum_format_hex'] = $this->language->get('colum_format_hex');
+        $data['colum_hover_background'] = $this->language->get('colum_hover_background');
+        $data['colum_type_li'] = $this->language->get('colum_type_li');
+        $data['colum_title_cropping'] = $this->language->get('colum_title_cropping');
+        $data['colum_number_cropping'] = $this->language->get('colum_number_cropping');
+        $data['text_format_hex'] = $this->language->get('text_format_hex');
+        $data['text_format_gradient'] = $this->language->get('text_format_gradient');
+
+
+
         $data['entry_status'] = $this->language->get('entry_status');
         $data['entry_date_added'] = $this->language->get('entry_date_added');
 
@@ -158,6 +195,45 @@ class ControllerExtensionModuleSimple extends Controller
             $data['error_warning'] = '';
         }
 
+        if (isset($this->error['setting_min_symbol'])) {
+            $data['error_setting_min_symbol'] = $this->error['setting_min_symbol'];
+        } else {
+            $data['error_setting_min_symbol'] = '';
+        }
+
+        if (isset($this->error['appearance_image_width'])) {
+            $data['error_appearance_image_width'] = $this->error['appearance_image_width'];
+        } else {
+            $data['error_appearance_image_width'] = '';
+        }
+
+        if (isset($this->error['appearance_background'])) {
+            $data['error_appearance_background'] = $this->error['appearance_background'];
+        } else {
+            $data['error_appearance_background'] = '';
+        }
+
+        if (isset($this->error['appearance_background_hover'])) {
+            $data['error_appearance_background_hover'] = $this->error['appearance_background_hover'];
+        } else {
+            $data['error_appearance_background_hover'] = '';
+        }
+
+        if (isset($this->error['desing_max_numbers'])) {
+            $data['error_desing_max_numbers'] = $this->error['desing_max_numbers'];
+        } else {
+            $data['error_desing_max_numbers'] = '';
+        }
+        if (isset($this->error['appearance_background_hover_gradient_to'])) {
+            $data['error_appearance_background_hover_gradient_to'] = $this->error['appearance_background_hover_gradient_to'];
+        } else {
+            $data['error_appearance_background_hover_gradient_to'] = '';
+        }
+        if (isset($this->error['appearance_background_hover_gradient_end'])) {
+            $data['error_appearance_background_hover_gradient_end'] = $this->error['appearance_background_hover_gradient_end'];
+        } else {
+            $data['error_appearance_background_hover_gradient_end'] = '';
+        }
         if (isset($this->session->data['success'])) {
             $data['success'] = $this->session->data['success'];
 
@@ -197,24 +273,71 @@ class ControllerExtensionModuleSimple extends Controller
 
         $this->load->model('extension/module/simple');
 
-        if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+        if (($this->request->server['REQUEST_METHOD'] == 'POST')&&($this->validationForm()) ){
 
 
             $setting = $this->getInput($this->request->post);
 
             $this->model_extension_module_simple->setSetting($setting);
+
+            $this->response->redirect($this->url->link('extension/module/simple', 'user_token=' . $this->session->data['user_token'] . $url, true));
+
         }
 
-        $this->response->redirect($this->url->link('extension/module/simple', 'user_token=' . $this->session->data['user_token'] . $url, true));
+        $this->index();
 
     }
+    protected  function validationForm()
+    {
 
+        if (!$this->user->hasPermission('modify', 'extension/module/simple')) {
+            $this->error['warning'] = $this->language->get('error_permission');
+        }
+
+        if ($this->request->post['setting_min_symbol'] == 0) {
+            $this->error['setting_min_symbol'] = $this->language->get('error_product');
+        }
+
+        if (($this->request->post['appearance_image_width'] < 25) || ($this->request->post['appearance_image_height'] < 25)) {
+            $this->error['appearance_image_width'] = $this->language->get('error_size_image');
+        }
+
+        if(!preg_match('/^([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?$/i', $this->request->post['appearance_background'])) {
+
+            $this->error['appearance_background'] = $this->language->get('error_hex');
+        }
+        if(!preg_match('/^([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?$/i', $this->request->post['appearance_background_hover'])) {
+
+            $this->error['appearance_background_hover'] = $this->language->get('error_hex');
+        }
+        if(!preg_match('/^([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?$/i', $this->request->post['appearance_background_hover_gradient_to'])) {
+
+            $this->error['appearance_background_hover_gradient_to'] = $this->language->get('error_hex');
+        }
+        if(!preg_match('/^([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?$/i', $this->request->post['appearance_background_hover_gradient_end'])) {
+
+            $this->error['appearance_background_hover_gradient_end'] = $this->language->get('error_hex');
+        }
+
+        if ($this->request->post['desing_max_numbers'] == 0)  {
+            $this->error['desing_max_numbers'] = $this->language->get('error_desing_max_numbers');
+        }
+
+        return !$this->error;
+
+    }
     protected function getInput($data)
     {
 
         $result = array();
 
         foreach ($data as $key => $val) {
+            if (preg_match('#smart_name_.*#', $key)) {
+                if (!empty($val)) {
+                    $key = str_replace('smart_name_', '', $key);
+                    $suggestion[$key] = $val;
+                }
+            }
 
             if ((preg_match('#setting_.*#', $key))&&($key != 'setting_id')) {
                 $result['setting_input'][$key] = $val;
@@ -229,7 +352,9 @@ class ControllerExtensionModuleSimple extends Controller
 
             }
             elseif (preg_match('#manufacturer_.*#', $key)) {
+
                 $result['manufacturer_input'][$key] = $val;
+
 
             }
             elseif (preg_match('#product_.*#', $key)) {
@@ -239,11 +364,18 @@ class ControllerExtensionModuleSimple extends Controller
             elseif (preg_match('#desing_.*#', $key)) {
                 $result['desing_input'][$key] = $val;
             }
+            elseif (preg_match('#appearance_.*#', $key)) {
+                $result['appearance'][$key] = $val;
+            }
+        }
+        if(!empty($suggestion)) {
+            $this->setSuggestion($suggestion);
+
         }
         foreach ($result as $k => $v) {
             $results[$k] = serialize($v);
         }
-        var_dump($results);
+
 
         return $results;
     }
@@ -252,55 +384,73 @@ class ControllerExtensionModuleSimple extends Controller
     {
         $result['setting_input'] = serialize(array(
             'setting_status' => 1,
-            'setting_min_symbol' => 2,
+            'setting_min_symbol' => 1,
             'setting_suggestions' => 1,
+
+
         ));
         $result['category_input'] = serialize(array(
-            'category_name' => 0,
-            'category_meta_title' => 0,
+            'category_name' => 1,
+            'category_meta_title' => 1,
         ));
         $result['information_input'] = serialize(array(
-            'information_title' => 0,
-            'information_description' => 0,
-            'information_meta_title' => 0,
-            'information_meta_description' => 0,
-            'information_meta_keyword' => 0,
+            'information_title' => 1,
+            'information_description' => 1,
+            'information_meta_title' => 1,
+            'information_meta_description' => 1,
+            'information_meta_keyword' => 1,
         ));
         $result['manufacturer_input'] = serialize(array(
-            'manufacturer_name' => 0
+            'manufacturer_name' => 1
         ));
         $result['product_input'] = serialize(array(
-            'product_name' => 0,
-            'product_manufacturer' => 0,
-            'product_ean' => 0,
-            'product_upc' => 0,
-            'product_option' => 0,
-            'product_meta_description' => 0,
-            'product_description' => 0,
-            'product_model' => 0,
-            'product_isbn' => 0,
-            'product_mpn' => 0,
-            'product_tag' => 0,
-            'product_meta_keyword' => 0,
-            'product_category' => 0,
-            'product_sku' => 0,
-            'product_jan' => 0,
-            'product_attribute' => 0,
-            'product_meta_title' => 0,
+            'product_name' => 1,
+            'product_manufactur_id' => 1,
+            'product_ean' => 1,
+            'product_upc' => 1,
+            'product_option' => 1,
+            'product_meta_description' => 1,
+            'product_description' => 1,
+            'product_model' => 1,
+            'product_isbn' => 1,
+            'product_mpn' => 1,
+            'product_tag' => 1,
+            'product_meta_keyword' => 1,
+            'product_category' => 1,
+            'product_sku' => 1,
+            'product_jan' => 1,
+            'product_attribute' => 1,
+            'product_meta_title' => 1,
         ));
         $result['desing_input'] = serialize(array(
             'desing_max_numbers' => 7,
-            'desing_links' => 0,
-            'desing_price' => 0,
-            'desing_image' => 0,
+            'desing_links' => 1,
+            'desing_price' => 1,
+            'desing_image' => 1,
+            'desing_title_cropping' => 0,
+            'desing_cropping' => 25,
+            'desing_type' => 1,
+        ));
+        $result['appearance'] =  serialize(array(
+            'appearance_image_width' => 25,
+            'appearance_image_height' => 25,
+            'appearance_background' => 'fff',
+            'appearance_background_hover_on' => 0,
+            'appearance_background_hover' => '229ac8',
+            'appearance_background_hover_gradient_on'=> 0,
+            'appearance_background_hover_gradient_to' => '229ac8',
+            'appearance_background_hover_gradient_end' => '229ac8'
+
         ));
         return $result;
     }
 
-    public
-    function install()
+    public    function install()
     {
         //создать таблицу в бд
+
+        $this->load->model('extension/module/simple');
+
 
         $this->model_extension_module_simple->createDatabase($this->getInputDefault());
 
@@ -309,24 +459,17 @@ class ControllerExtensionModuleSimple extends Controller
 
     }
 
-    public
-    function uninstall()
+    public    function uninstall()
     {
         //создать таблицу в бд
-        $this->load->model('extension/simple');
-        $this->model_extension_simple_ajax_search->dropDatabase();
-
-    }
-
-    public
-    function getSetting()
-    {
+        $this->load->model('extension/module/simple');
+        $this->model_extension_module_simple->dropDatabase();
 
     }
 
 
-    protected
-    function validate()
+
+    protected    function validate()
     {
         if (!$this->user->hasPermission('modify', $this->route)) {
             $this->load->model('user/user_group');
@@ -349,6 +492,26 @@ class ControllerExtensionModuleSimple extends Controller
                     "extension/module/simple");
             }
         }
+
+    }
+
+    public function getSuggestion()
+    {
+        $this->load->model('extension/module/simple');
+        $suggestion = $this->model_extension_module_simple->getSuggetion();
+
+        return $suggestion;
+
+
+    }
+
+    public function setSuggestion($suggestion)
+    {
+        $this->load->model('extension/module/simple');
+        $this->model_extension_module_simple->setSuggetion($suggestion);
+
+
+
 
     }
 }

@@ -111,7 +111,7 @@ class ControllerExtensionModulePPLogin extends Controller {
 		$data['locales'] = array();
 
 		$data['locales'][] = array(
-			'value' => 'en-gb',
+			'value' => 'english',
 			'text' => 'English (Great Britain)'
 		);
 

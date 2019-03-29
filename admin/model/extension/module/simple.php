@@ -2,6 +2,9 @@
 
 class ModelExtensionModuleSimple extends Model
 {
+
+    public $install = true;
+
     public function getSetting()
     {
         $result = $this->db->query("SELECT * FROM " . DB_PREFIX . "pw_setting");
@@ -12,7 +15,7 @@ class ModelExtensionModuleSimple extends Model
     public function setSetting($data)
     {
 
-        $sql ="UPDATE ". DB_PREFIX . "pw_setting SET ";
+        $sql =" UPDATE ". DB_PREFIX . "pw_setting SET ";
         if(isset($data['setting_input'])){
             $sql .= "setting_input='".$data['setting_input']."'" ;
         }
@@ -32,6 +35,10 @@ class ModelExtensionModuleSimple extends Model
         if(isset($data['desing_input'])){
             $sql .= ", desing_input='".$data['desing_input']."' ";
         }
+        if(isset($data['appearance'])){
+            $sql .= ", appearance='".$data['appearance']."' ";
+        }
+        $sql .= " WHERE setting_id = 1 ";
 
         $this->db->query($sql);
     }
@@ -46,25 +53,69 @@ class ModelExtensionModuleSimple extends Model
         `manufacturer_input` text NOT NULL,
         `product_input` text NOT NULL,
         `desing_input` text NOT NULL,
+       `appearance` text NOT NULL,
+
 
         PRIMARY KEY (`setting_id`)
         )
         COLLATE='utf8_general_ci'
         ");
-/*
-    $this->db->query("INSERT INTO " . DB_PREFIX . "pw_setting SET
+
+
+        $this->db->query("CREATE TABLE IF NOT EXISTS  " . DB_PREFIX . "suggestion
+        (
+            id int auto_increment,
+	name text null,
+	value text null,
+	constraint oc_suggestion_pk
+		primary key (id)
+)  COLLATE='utf8_general_ci'");
+
+     $this->db->query("INSERT INTO " . DB_PREFIX . "pw_setting SET
         setting_input='" . $data['setting_input'] . "',
         category_input='" . $data['category_input'] . "',
         information_input='" . $data['information_input'] . "',
         manufacturer_input='" . $data['manufacturer_input'] . "',
         product_input='" . $data['product_input'] . "',
-        desing_input='" . $data['desing_input'] . "'
-         "); */
+        desing_input='" . $data['desing_input'] . "',
+       appearance='" . $data['appearance'] . "'
+         ");
+     $this->install = false;
+
  }
 
     public function dropDatabase(){
 
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "pw_setting`");
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "suggestion`");
 
+
+    }
+
+    public function getSuggetion()
+    {
+        $sql = ("SELECT * FROM " . DB_PREFIX . "suggestion");
+        $res = $this->db->query($sql);
+        return $res->rows;
+    }
+    public function setSuggetion($suggestion)
+    {
+      /*  $sql = (" UPDATE  " . DB_PREFIX . "suggestion SET ");*/
+        foreach ($suggestion as $id=>$val){
+            $sql = "UPDATE  " . DB_PREFIX . "suggestion SET  value='". $this->db->escape($val)."' WHERE  id='".$id."'";
+
+            $this->db->query($sql);
+
+        }
+
+    /*    $sql = "INSERT INTO " . DB_PREFIX . "suggestion  (id, value) VALUES   ";
+        $sql .= '(';
+        foreach ($suggestion as $id=>$val){
+            $sql .='';
+        }
+        $sql .="ON DUPLICATE KEY UPDATE";
+        var_dump($sql);
+        die();
+            $this->db->query($sql);*/
     }
 }

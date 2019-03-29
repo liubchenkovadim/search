@@ -317,6 +317,8 @@ class ControllerMarketplaceInstall extends Controller {
 						}
 	
 						if (!$json) {
+							
+							
 							$modification_data = array(
 								'extension_install_id' => $extension_install_id,
 								'name'                 => $name,
@@ -363,7 +365,7 @@ class ControllerMarketplaceInstall extends Controller {
 		if (!$json) {
 			$directory = DIR_UPLOAD . 'tmp-' . $this->session->data['install'] . '/';
 			
-			if (!is_dir($directory)) {
+			if (is_dir($directory)) {
 				// Get a list of files ready to upload
 				$files = array();
 	

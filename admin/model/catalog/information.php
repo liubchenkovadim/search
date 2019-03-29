@@ -1,12 +1,15 @@
 <?php
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ModelCatalogInformation extends Model {
 	public function addInformation($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "information SET sort_order = '" . (int)$data['sort_order'] . "', bottom = '" . (isset($data['bottom']) ? (int)$data['bottom'] : 0) . "', status = '" . (int)$data['status'] . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "information SET sort_order = '" . (int)$data['sort_order'] . "', bottom = '" . (isset($data['bottom']) ? (int)$data['bottom'] : 0) . "', status = '" . (int)$data['status'] . "', noindex = '" . (int)$data['noindex'] . "'");
 
 		$information_id = $this->db->getLastId();
 
 		foreach ($data['information_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_h1 = '" . $this->db->escape($value['meta_h1']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
 		if (isset($data['information_store'])) {
@@ -19,7 +22,7 @@ class ModelCatalogInformation extends Model {
 		if (isset($data['information_seo_url'])) {
 			foreach ($data['information_seo_url'] as $store_id => $language) {
 				foreach ($language as $language_id => $keyword) {
-					if (trim($keyword)) {
+					if (!empty($keyword)) {
 						$this->db->query("INSERT INTO " . DB_PREFIX . "seo_url SET store_id = '" . (int)$store_id . "', language_id = '" . (int)$language_id . "', query = 'information_id=" . (int)$information_id . "', keyword = '" . $this->db->escape($keyword) . "'");
 					}
 				}
@@ -38,12 +41,12 @@ class ModelCatalogInformation extends Model {
 	}
 
 	public function editInformation($information_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "information SET sort_order = '" . (int)$data['sort_order'] . "', bottom = '" . (isset($data['bottom']) ? (int)$data['bottom'] : 0) . "', status = '" . (int)$data['status'] . "' WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "information SET sort_order = '" . (int)$data['sort_order'] . "', bottom = '" . (isset($data['bottom']) ? (int)$data['bottom'] : 0) . "', status = '" . (int)$data['status'] . "', noindex = '" . (int)$data['noindex'] . "' WHERE information_id = '" . (int)$information_id . "'");
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "information_description WHERE information_id = '" . (int)$information_id . "'");
 
 		foreach ($data['information_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_h1 = '" . $this->db->escape($value['meta_h1']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "information_to_store WHERE information_id = '" . (int)$information_id . "'");
@@ -76,6 +79,13 @@ class ModelCatalogInformation extends Model {
 
 		$this->cache->delete('information');
 	}
+	
+	public function editInformationStatus($information_id, $status) {
+        $this->db->query("UPDATE " . DB_PREFIX . "information SET status = '" . (int)$status . "'WHERE information_id = '" . (int)$information_id . "'");
+        
+		$this->cache->delete('information');
+		
+    }
 
 	public function deleteInformation($information_id) {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "information` WHERE information_id = '" . (int)$information_id . "'");
@@ -154,6 +164,7 @@ class ModelCatalogInformation extends Model {
 				'title'            => $result['title'],
 				'description'      => $result['description'],
 				'meta_title'       => $result['meta_title'],
+				'meta_h1'	       => $result['meta_h1'],
 				'meta_description' => $result['meta_description'],
 				'meta_keyword'     => $result['meta_keyword']
 			);

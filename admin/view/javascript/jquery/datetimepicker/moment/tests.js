@@ -61971,7 +61971,7 @@ test('quarter ordinal formats', function (assert) {
 
 //     var locales =
 //         'ar-sa ar-tn ar az be bg bn bo br bs ca cs cv cy da de-at de dv el ' +
-//         'en-au en-ca en-gb en-ie en-nz eo es et eu fa fi fo fr-ca fr-ch fr fy ' +
+//         'en-au en-ca english en-ie en-nz eo es et eu fa fi fo fr-ca fr-ch fr fy ' +
 //         'gd gl he hi hr hu hy-am id is it ja jv ka kk km ko lb lo lt lv me mk ml ' +
 //         'mr ms-my ms my nb ne nl nn pl pt-br pt ro ru se si sk sl sq sr-cyrl ' +
 //         'sr sv sw ta te th tl-ph tlh tr tzl tzm-latn tzm uk uz vi zh-cn zh-tw';
@@ -69018,7 +69018,7 @@ test('library setter locale substrings', function (assert) {
 
 test('library getter locale array and substrings', function (assert) {
     assert.equal(moment.locale(['en-CH', 'fr']), 'en', 'prefer root locale to shallower ones');
-    assert.equal(moment.locale(['en-gb-leeds', 'en-CA']), 'en-gb', 'prefer root locale to shallower ones');
+    assert.equal(moment.locale(['english-leeds', 'en-CA']), 'en-gb', 'prefer root locale to shallower ones');
     assert.equal(moment.locale(['en-fake', 'en-CA']), 'en-ca', 'prefer alternatives with shared roots');
     assert.equal(moment.locale(['en-fake', 'en-fake2', 'en-ca']), 'en-ca', 'prefer alternatives with shared roots');
     assert.equal(moment.locale(['fake-CA', 'fake-MX', 'fr']), 'fr', 'always find something if possible');

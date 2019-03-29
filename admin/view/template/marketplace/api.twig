@@ -2,7 +2,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h4 class="modal-title"><i class="fa fa-opencart"></i> {{ heading_title }}</h4>
+      <h4 class="modal-title"><i class="fa fa-cog"></i> {{ heading_title }}</h4>
     </div>
     <div class="modal-body">
       <div class="alert alert-info"><i class="fa fa-info-circle"></i>  {{ text_signup }}</div>
@@ -53,8 +53,7 @@ $('#button-save').on('click', function(e) {
 			if (json['success']) {
 				$('#modal-opencart .modal-body').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 			
-				$('input[name="username"]').val('');
-				$('textarea[name="secret"]').val('');
+				window.location.reload();
 			}			
 		},
 		error: function(xhr, ajaxOptions, thrownError) {

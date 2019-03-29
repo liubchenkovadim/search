@@ -1788,7 +1788,7 @@ function normalizeLocale(key) {
 }
 
 // pick the locale from the array
-// try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
+// try ['en-au', 'english'] as 'en-au', 'english', 'en', as in move through the list trying each
 // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
 function chooseLocale(names) {
     var i = 0, j, next, locale, split;
@@ -6095,7 +6095,7 @@ hooks.defineLocale('cy', {
     weekdaysShort: 'Sul_Llun_Maw_Mer_Iau_Gwe_Sad'.split('_'),
     weekdaysMin: 'Su_Ll_Ma_Me_Ia_Gw_Sa'.split('_'),
     weekdaysParseExact : true,
-    // time formats are the same as en-gb
+    // time formats are the same as english
     longDateFormat: {
         LT: 'HH:mm',
         LTS : 'HH:mm:ss',
@@ -6687,7 +6687,7 @@ hooks.defineLocale('en-ca', {
 });
 
 //! moment.js locale configuration
-//! locale : English (United Kingdom) [en-gb]
+//! locale : English (United Kingdom) [english]
 //! author : Chris Gedrim : https://github.com/chrisgedrim
 
 hooks.defineLocale('en-gb', {
