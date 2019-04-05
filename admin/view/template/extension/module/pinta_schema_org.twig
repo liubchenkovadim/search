@@ -1,0 +1,459 @@
+{{ header }}{{ column_left }}
+
+<div id="content" style="font-size: 14px">
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+            <div class="pull-right">
+                <button type="submit" form="form-setting" name="save" data-toggle="tooltip" title="{{ button_save }}"
+                        class="btn btn-primary"><i class="fa fa-save"></i></button>
+
+                <!--      <a href="{{ save }}" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i
+                            class="fa fa-save"></i></a>
+               <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger"
+                        onclick="confirm('{{ text_confirm }}') ? $('#form-review').submit() : false;"><i
+                            class="fa fa-trash-o"></i></button>
+            </div> -->
+
+            </div>
+        </div>
+        <div class="container-fluid">{% if error_warning %}
+                <div class="alert alert-danger alert-dismissible"><i
+                            class="fa fa-exclamation-circle"></i> {{ error_warning }}
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            {% endif %}
+            {% if success %}
+                <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            {% endif %}
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="setting-tab" data-toggle="tab" href="#setting"
+                                       role="tab" aria-controls="setting"
+                                       aria-selected="true">{{ column_setting }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="product-tab" data-toggle="tab" href="#product"
+                                       role="tab" aria-controls="product"
+                                       aria-selected="false"> {{ colum_select_product }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="breadcrumb-tab" data-toggle="tab" href="#breadcrumb"
+                                       role="tab" aria-controls="breadcrumb"
+                                       aria-selected="false">  {{ colum_select_breadcrumb_list }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="website-tab" data-toggle="tab" href="#website"
+                                       role="tab" aria-controls="website"
+                                       aria-selected="false">   {{ colum_select_website }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="organization-tab" data-toggle="tab" href="#organization"
+                                       role="tab" aria-controls="organization"
+                                       aria-selected="false">  {{ colum_select_organization }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="place-tab" data-toggle="tab" href="#place"
+                                       role="tab" aria-controls="place"
+                                       aria-selected="false">  {{ colum_select_place }}</a>
+                                </li>
+                            </ul>
+
+                            <form action="{{ save }}" method="post" id="form-setting">
+
+                                <div class="tab-content" id="myTabContent">
+
+                                    <div class="tab-pane fade show active in" id="setting" role="tabpanel"
+                                         aria-labelledby="setting-tab">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="pinta_schema_org_status">Статус</label>
+                                            <div class="col-sm-10">
+                                                <select name="pinta_schema_org_status"
+                                                        id="pinta_schema_org_status" class="form-control">
+
+                                                    <option value="1" {% if pinta_schema_org_status == 1 %} selected {% endif %} >{{ on }}</option>
+                                                    <option value="0" {% if pinta_schema_org_status == 0 %} selected {% endif %} >{{ off }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="product" role="tabpanel"
+                                         aria-labelledby="product-tab">
+                                        <table class="table schema_org">
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-input" type="hidden"
+                                                               name="pinta_schema_org_select_product"
+                                                               value="0"
+                                                                {% if pinta_schema_org_select_product == 0 %} checked {% endif %}
+                                                        >
+                                                        <input class="form-input" type="checkbox"
+                                                               name="pinta_schema_org_select_product"
+                                                               value="1"
+                                                                {% if pinta_schema_org_select_product == 1 %} checked {% endif %}
+                                                               id="pinta_schema_org_select_product"
+                                                        >
+                                                        <label class="form-check-label"
+                                                               for="pinta_schema_org_select_product">
+                                                            {{ colum_select_product }}
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="breadcrumb" role="tabpanel"
+                                         aria-labelledby="breadcrumb-tab">
+                                        <table class="table schema_org">
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-input" type="hidden"
+                                                               name="pinta_schema_org_select_breadcrumb_list"
+                                                               value="0"
+                                                                {% if pinta_schema_org_select_breadcrumb_list == 0 %} checked {% endif %}
+                                                        >
+                                                        <input class="form-input" type="checkbox"
+                                                               name="pinta_schema_org_select_breadcrumb_list"
+                                                               value="1"
+                                                                {% if pinta_schema_org_select_breadcrumb_list == 1 %} checked {% endif %}
+                                                               id="pinta_schema_org_select_product"
+                                                        >
+                                                        <label class="form-check-label"
+                                                               for="pinta_schema_org_select_breadcrumb_list">
+                                                            {{ colum_select_breadcrumb_list }}
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="website" role="tabpanel"
+                                         aria-labelledby="website-tab">
+                                        <table class="table schema_org">
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-input" type="hidden"
+                                                               name="pinta_schema_org_select_website"
+                                                               value="0"
+                                                                {% if pinta_schema_org_select_website == 0 %} checked {% endif %}
+                                                        >
+                                                        <input class="form-input" type="checkbox"
+                                                               name="pinta_schema_org_select_website"
+                                                               value="1"
+                                                                {% if pinta_schema_org_select_website == 1 %} checked {% endif %}
+                                                               id="pinta_schema_org_select_website"
+                                                        >
+                                                        <label class="form-check-label"
+                                                               for="pinta_schema_org_select_website">
+                                                            {{ colum_select_website }}
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="organization" role="tabpanel"
+                                         aria-labelledby="organization-tab">
+                                        <table class="table border_none schema_org">
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div class="form-check">
+                                                        <input class="form-input" type="hidden"
+                                                               name="pinta_schema_org_select_organization"
+                                                               value="0"
+                                                                {% if pinta_schema_org_select_organization == 0 %} checked {% endif %}
+                                                        >
+                                                        <input class="form-input" type="checkbox"
+                                                               name="pinta_schema_org_select_organization"
+                                                               value="1"
+                                                                {% if pinta_schema_org_select_organization == 1 %} checked {% endif %}
+                                                               id="pinta_schema_org_select_organization"
+                                                        >
+                                                        <label class="form-check-label"
+                                                               for="pinta_schema_org_select_organization">
+                                                            {{ colum_select_organization }}
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr class="organization">
+                                                <td colspan="3"><h2>{{ colum_select_organization }}</h2></td>
+
+                                            </tr>
+                                            {% set k = 0 %}
+                                            {% for element in pinta_schema_org_select_organization_url %}
+                                                <tr class="organization-url">
+                                                    <td>
+
+                                                        <div class="form-group">
+                                                            <label for="organization_url">{{ addres_site }}</label>
+                                                            <input type="text" class="form-control url"
+                                                                   id="organization_url"
+                                                                   name="pinta_schema_org_select_organization_url[{{ k }}]"
+                                                                   value="{{ element }}  ">
+                                                        </div>
+
+                                                    </td>
+                                                    <td><a class="add_url btn btn-primary">+</a></td>
+                                                    <td><a class="delete_url btn btn-danger">-</a></td>
+
+                                                </tr>
+                                                {% set k = k+1 %}
+                                            {% endfor %}
+                                            {% set i = 0 %}
+                                            {% for item in pinta_schema_org_select_organization_telefon %}
+                                                <tr class="organization-telefon">
+                                                    <td>
+
+                                                        {% if error_telefon[i] %}
+                                                            <div class="text-danger">{{ error_telefon[i] }}</div>
+                                                        {% endif %}
+
+
+                                                        <div class="form-group">
+
+                                                            <label for="organization_tel[{{ i }}]">{{ telefon }}</label>
+                                                            <input type="text" class="form-control telefon"
+                                                                   id="organization_tel[{{ i }}]"
+                                                                   name="pinta_schema_org_select_organization_telefon[{{ i }}]"
+                                                                   value="{{ item }}">
+
+                                                        </div>
+
+
+                                                    </td>
+                                                    <td><a class="add_telefon btn btn-primary">+</a></td>
+                                                    <td><a class="delete_telefon btn btn-danger">-</a></td>
+                                                </tr>
+                                                {% set i = i+1 %}
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade " id="place" role="tabpanel"
+                                         aria-labelledby="place-tab">
+
+                                        <table class="table border_none schema_org">
+                                            <tr>
+                                                <td colspan="6">
+                                                    <div class="form-check">
+                                                        <input class="form-input" type="hidden"
+                                                               name="pinta_schema_org_select_place"
+                                                               value="0"
+                                                                {% if pinta_schema_org_select_place == 0 %} checked {% endif %}
+                                                        >
+                                                        <input class="form-input" type="checkbox"
+                                                               name="pinta_schema_org_select_place"
+                                                               value="1"
+                                                                {% if pinta_schema_org_select_place == 1 %} checked {% endif %}
+                                                               id="pinta_schema_org_select_place"
+                                                        >
+                                                        <label class="form-check-label"
+                                                               for="pinta_schema_org_select_place">
+                                                            {{ colum_select_place }}
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="adress">
+                                                <td colspan="2">
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_place_adress[name]">
+                                                        {{ colum_select_place_name }}
+                                                    </label>
+                                                </td>
+                                                <td colspan="4">
+                                                    <input type="text" class="form-control" name="pinta_schema_org_select_place_adress[name]"
+                                                            value="{{ pinta_schema_org_select_place_adress['name'] }}">
+                                                </td>
+
+                                            </tr>
+                                            <tr class="adress">
+                                                <td colspan="2" >
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_place_adress[city]">
+                                                        {{ colum_select_place_city }}
+                                                    </label>
+                                                </td>
+                                                <td colspan="4">
+                                                    <input type="text" class="form-control" name="pinta_schema_org_select_place_adress[city]"
+                                                           value="{{ pinta_schema_org_select_place_adress['city'] }}">
+                                                </td>
+
+                                            </tr>
+                                            <tr class="adress" >
+                                                <td colspan="2">
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_place_adress[region]">
+                                                        {{ colum_select_place_region }}
+                                                    </label>
+                                                </td>
+                                                <td colspan="4">
+                                                    <input type="text" class="form-control" name="pinta_schema_org_select_place_adress[region]"
+                                                           value="{{ pinta_schema_org_select_place_adress['region'] }}">
+                                                </td>
+
+                                            </tr>
+                                            <tr class="adress" >
+                                                <td colspan="2">
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_place_adress[adress]">
+                                                        {{ colum_select_place_adress }}
+                                                    </label>
+                                                </td>
+                                                <td colspan="4" >
+                                                    <input type="text" class="form-control" name="pinta_schema_org_select_place_adress[adress]"
+                                                             value="{{ pinta_schema_org_select_place_adress['adress'] }}"></td>
+
+                                            </tr>
+                                            <tr class="adress" >
+                                                <td colspan="2">
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_place_adress[index]">
+                                                        {{ colum_select_place_index }}
+                                                    </label>
+                                                </td>
+                                                <td colspan="4">
+                                                    <input type="text"  class="form-control" name="pinta_schema_org_select_place_adress[index]"
+                                                           value="{{ pinta_schema_org_select_place_adress['index'] }}">
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td  class="adress" colspan="6">
+                                                    <div class="form-check">
+                                                        <input class="form-input" type="hidden"
+                                                               name="pinta_schema_org_select_times"
+                                                               value="0"
+                                                                {% if pinta_schema_org_select_times == 0 %} checked {% endif %}
+                                                        >
+                                                        <input class="form-input" type="checkbox"
+                                                               name="pinta_schema_org_select_times"
+                                                               value="1"
+                                                                {% if pinta_schema_org_select_times == 1 %} checked {% endif %}
+                                                               id="pinta_schema_org_select_times"
+                                                        >
+                                                        <label class="form-check-label"
+                                                               for="pinta_schema_org_select_times">
+                                                            {{ colum_select_time }}
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% if pinta_schema_org_select_time_full is null %}
+                                            <tr class="time-tr">
+                                                <td>
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_time_day">
+                                                        {{ colum_select_place_time_day }}
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div><p>{{ placeholder_day }}</p></div>
+                                                    <input type="text" class="form-control day" name="pinta_schema_org_select_time_full[0][day]"
+                                                           value="{{ index['day'] }}" placeholder="{{ placeholder_day }}" >
+                                                </td>
+                                                <td>
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_time[time]">
+                                                        {{ colum_select_place_time_time }}
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div><p>{{ placeholder_time }}</p></div>
+                                                    <input type="text"  class="form-control time" name="pinta_schema_org_select_time_full[0][time]"
+                                                           value="{{ index['time'] }}" placeholder="{{ placeholder_time }}">
+                                                </td>
+                                                <td>
+                                                    <a class="add_time btn btn-primary">+</a>
+                                                </td>
+                                                <td>
+                                                    <a class="delete_time btn btn-danger">-</a>
+                                                </td>
+                                            </tr>
+                                            {% else %}
+                                            {% set i = 0
+                                            %}
+                                            {% for index in pinta_schema_org_select_time_full%}
+                                            <tr class="time-tr">
+                                                <td>
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_time_day">
+                                                        {{ colum_select_place_time_day }}
+                                                    </label>
+                                                </td>
+                                                <td>
+
+                                                    <input type="text"  class="form-control day" name="pinta_schema_org_select_time_full[{{ i }}][day]"
+                                                           value="{{ index['day'] }}" placeholder="{{ placeholder_day }}">
+                                                </td>
+                                                                                          <td>
+                                                    <label class="form-check-label"
+                                                           for="pinta_schema_org_select_time[time]">
+                                                        {{ colum_select_place_time_time }}
+                                                    </label>
+                                                </td>
+                                                <td>
+
+
+                                                    <input type="text"  class="form-control time" name="pinta_schema_org_select_time_full[{{ i }}][time]"
+                                                           value="{{ index['time'] }}" placeholder="{{ placeholder_time }}">
+                                                </td>
+                                                <td>
+                                                    <a class="add_time btn btn-primary">+</a>
+                                                </td>
+                                                <td>
+                                                    <a class="delete_time btn btn-danger">-</a>
+                                                </td>
+                                            </tr>
+                                                {% set i = i +1 %}
+                                            {% endfor %}
+                                            {% endif %}
+
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-6 text-left">{{ pagination }}</div>
+                        <div class="col-sm-6 text-right">{{ results }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{ footer }}
