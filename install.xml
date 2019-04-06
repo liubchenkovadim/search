@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>PINTA OPEN GRAPH</name>
+    <code>PINTA OPEN GRAPH</code>
+    <version>1.0</version>
+    <author>Pinta</author>
+    <link>http://www.pinta.com</link>
+    <file path="catalog/controller/common/header.php">
+        <operation>
+            <search >
+                <![CDATA[	public function index() { ]]>
+            </search>
+            <add position="after">
+                <![CDATA[
+                $data['schema'] = $this->load->controller('extension/module/pinta_open_graph');
+
+]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/common/header.twig">
+        <operation>
+            <search >
+                <![CDATA[	</title> ]]>
+            </search>
+            <add position="after">
+                <![CDATA[        	 {% if schema %}
+ {% for schem in schema %}
+    {{ schem }}
+    {% endfor %}
+  {% endif %}
+
+]]>
+            </add>
+        </operation>
+        <operation>
+            <search >
+                <![CDATA[	<head> ]]>
+            </search>
+            <add position="replace">
+                <![CDATA[
+                <head prefix="og: http://ogp.me/ns#
+                        fb: http://ogp.me/ns/fb#
+                   product: http://ogp.me/ns/product#">
+
+]]>
+            </add>
+        </operation>
+    </file>
+</modification>

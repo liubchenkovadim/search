@@ -1,0 +1,178 @@
+{{ header }}{{ column_left }}
+
+<div id="content" style="font-size: 14px">
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+            <div class="pull-right">
+                <button type="submit" form="form-setting" name="save" data-toggle="tooltip" title="{{ button_save }}"
+                        class="btn btn-primary"><i class="fa fa-save"></i></button>
+
+                <!--      <a href="{{ save }}" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i
+                            class="fa fa-save"></i></a>
+               <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger"
+                        onclick="confirm('{{ text_confirm }}') ? $('#form-review').submit() : false;"><i
+                            class="fa fa-trash-o"></i></button>
+            </div> -->
+
+            </div>
+        </div>
+        <div class="container-fluid">{% if error_warning %}
+                <div class="alert alert-danger alert-dismissible"><i
+                            class="fa fa-exclamation-circle"></i> {{ error_warning }}
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            {% endif %}
+            {% if success %}
+                <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            {% endif %}
+           
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="table-responsive">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#setting">{{ column_setting }}</a>
+                                    </li>
+
+
+                                </ul>
+
+                                <form action="{{ save }}" method="post" id="form-setting" enctype="multipart/form-data" >
+                                    <div class="tab-content">
+                                        <div id="setting" class="tab-pane fade in active">
+                                            <h3>{{ column_setting }}</h3>
+                                            <table class="table border_none">
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label"
+                                                                   for="pinta_open_graph_status">{{ colum_status }}</label>
+                                                            <div class="col-sm-10">
+                                                                <select name="pinta_open_graph_status"
+                                                                        id="pinta_open_graph_status"
+                                                                        class="form-control">
+
+                                                                    <option value="1" {% if pinta_open_graph_status == 1 %} selected {% endif %} >{{ on }}</option>
+                                                                    <option value="0" {% if pinta_open_graph_status == 0 %} selected {% endif %} >{{ off }}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        {#<div class="form-group">
+                                                            <label class="col-sm-4 control-label"
+                                                                   for="pinta_open_graph_image_default">{{ colum_chose_file }}</label>
+
+
+                                                                <div class="col-sm-8">
+                                                                    <input type="file" class="custom-file-input"
+                                                                           id="pinta_open_image_default" name="pinta_open_graph_image_default"
+                                                                            multiple >
+
+                                                                </div>
+                                                            <div class="form-group">
+                                                            <input type="text" class="custom-file-input" name="pinta_open_graph_image_default_old"
+
+                                                                   value="{{ pinta_open_graph_image_default }}" disabled style="width: 50%;">
+                                                            </div>
+
+                                                        </div>#}
+                                                        <fieldset>
+                                                            <legend>{{ text_upload }}</legend>
+                                                            <label class="col-sm-4 control-label"
+                                                                   for="pinta_open_graph_image_default">{{ colum_chose_file }}</label>
+
+
+                                                            <div class="col-sm-8">
+                                                                <input type="file" class="custom-file-input"
+                                                                       id="pinta_open_image_default" name="pinta_open_graph_image_default"
+                                                                       multiple >
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="hidden" class="custom-file-input" name="pinta_open_graph_image_default_old"
+
+                                                                       value="{{ pinta_open_graph_image_default }}"  >
+                                                                <input type="text" class="custom-file-input" name="pinta_open_graph_image_default_old"
+
+                                                                       value="{{ pinta_open_graph_image_default }}" disabled style="width: 50%;">
+                                                            </div>
+                                                        </fieldset>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <label for="pinta_open_graph_width_image">{{ colum_width }}</label>
+                                                            <input type="number" class="form-control" id="pinta_open_graph_width_image" name="pinta_open_graph_width_image" value="{{ pinta_open_graph_width_image }}">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="form-group">
+                                                            <label for="pinta_open_graph_height_image">{{ colum_height }}</label>
+                                                            <input type="number" class="form-control" id="pinta_open_graph_height_image" name="pinta_open_graph_height_image" value="{{ pinta_open_graph_height_image }}">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                <td colspan="3">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="pinta_open_graph_currencies">{{ colum_currencies }}</label>
+                                                        <div class="col-sm-10">
+
+
+                                                                {% for curency in currencies %}
+                                                                    <div class="col-sm-2">
+                                                                    <input type="hidden" value="0" name="pinta_open_graph_curency[{{ curency['code'] }}]" {% if pinta_open_graph_curency == 0 %} checked {% endif %} >
+                                                                    <label for="{{ curency['code'] }}">{{ curency['title'] }}</label>
+
+                                                                    <input type="checkbox" id="{{ curency['code'] }}" value="1" name="pinta_open_graph_curency[{{ curency['code'] }}]" {% if pinta_open_graph_curency[curency['code']] == 1 %} checked {% endif %} >
+                                                                    </div>
+                                                                {% endfor %}
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-6 text-left">{{ pagination }}</div>
+                                <div class="col-sm-6 text-right">{{ results }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{{ footer }}
